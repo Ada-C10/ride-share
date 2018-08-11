@@ -3,7 +3,7 @@
 RIDE_SHARES = {
   "DR0001": [
     {
-      date: "3rd Feb 2016", #
+      date: "3rd Feb 2016",
       cost: 10,
       rider: "RD0003",
       rating: 3
@@ -83,7 +83,7 @@ def get_earnings(driver_id, list_of_rides)
   days_earnings = {}
 
   list_of_rides.each do |ride|
-    if days_earnings.has_value?(ride[:date])
+    if days_earnings.has_key?(ride[:date])
       days_earnings[ride[:date]] += ride[:cost]
     else
       date1 = ride[:date]
@@ -97,13 +97,12 @@ end
 
 # returns the average rating for a given driver_id
 def get_average_rating(driver_id)
-  sum = 0.0
 
-  RIDE_SHARES[driver_id].each do |rides|
-    sum += rides[:rating]
+  sum = RIDE_SHARES[driver_id].sum do |rides|
+    rides[:rating]
   end
 
-  return (sum / RIDE_SHARES[driver_id].length * 10).floor / 10.0
+  return (sum.to_f / RIDE_SHARES[driver_id].length * 10).floor / 10.0
 
 end
 

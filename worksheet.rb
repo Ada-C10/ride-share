@@ -99,12 +99,11 @@ drivers = {
 
 
 # Creating hash of driver by date for cost
-driver_by_date = {}
 
+driver_by_date = {}
 drivers.each do |driver, rides|
 
   driver_by_date[driver] = {}
-
   rides.each do |ride|
 
     # saving the revenue by driver by date

@@ -38,20 +38,16 @@ rideshare = [
 # Iterate through the data structure to display, by printing in terminal, the following info:
 # The number of rides each driver has given
 def rides_given(arr_rideshare)
-  rides_by_driver = []
-  arr_rideshare.each do | hashes |
+  rides_by_driver = arr_rideshare.map do | hashes |
     sentence_string = "Driver with ID ##{hashes[:id]} gave a total of  #{hashes[:date].count} rides"
-    rides_by_driver << sentence_string
   end
   return rides_by_driver
 end
 
 # The total amount of money each driver has made
 def driver_payday(arr_rideshare)
-  driver_mula = []
-  arr_rideshare.each do | hashes |
+  driver_mula = arr_rideshare.map do | hashes |
     sentence_string = "Driver with ID ##{hashes[:id]} made $#{hashes[:fares].sum}.00"
-    driver_mula << sentence_string
   end
   return driver_mula
 end
@@ -64,11 +60,8 @@ end
 
 # The average rating for each driver
 def driver_rating(arr_rideshare)
-  driver_ratings = []
-  arr_rideshare.each do | hashes |
-    # Average_rating = hashes[:ratings].sum / hashes[:ratings].count
+  driver_ratings = arr_rideshare.map do | hashes |
     sentence_string = "Driver with ID ##{hashes[:id]} has an average rating of #{find_average(hashes[:ratings])}"
-    driver_ratings << sentence_string
   end
   return driver_ratings
 end
@@ -76,10 +69,8 @@ end
 # Most money methods
 # Find max money made from all the drivers
 def find_max(arr_rideshare)
-  driver_fares = []
-  arr_rideshare.each do | hashes |
+  driver_fares = arr_rideshare.map do | hashes |
     fare_sum = hashes[:fares].sum
-    driver_fares << fare_sum
   end
   max_moneymaker = driver_fares.max
   return max_moneymaker
@@ -87,11 +78,9 @@ end
 
 # Match individual sums to max, store a variable containing a sentence for max sum in an array (accounts for potential ties in the future)
 def find_biggest_payday(arr_rideshare)
-  most_money = []
-  arr_rideshare.each do | hashes |
+  most_money = arr_rideshare.map do | hashes |
     if hashes[:fares].sum == find_max(arr_rideshare)
-      string_sentence = "Driver with ID ##{hashes[:id]} had the biggest payday"
-      most_money << string_sentence
+      string_sentence = "Driver with ID ##{hashes[:id]} had the biggest payday."
     end
   end
   return most_money
@@ -100,10 +89,8 @@ end
 # Highest rating methods
 # Use find_average defined above to find the highest of all ratings
 def find_highest_rating(arr_rideshare)
-  driver_ratings = []
-  arr_rideshare.each do | hashes |
+  driver_ratings = arr_rideshare.map do | hashes |
     average_rating = find_average(hashes[:ratings])
-    driver_ratings << average_rating
   end
   highest_rating = driver_ratings.max
   return highest_rating
@@ -111,11 +98,9 @@ end
 
 # Match individual averages to max average, store variable containing sentence for highest and store in an array (accounts for potential ties in the future)
 def find_best_rated(arr_rideshare)
-  superstar_drivers = []
-  arr_rideshare.each do | hashes |
+  superstar_drivers = arr_rideshare.map do | hashes |
     if find_average(hashes[:ratings]) == find_highest_rating(arr_rideshare)
       string_sentence = "Driver with ID ##{hashes[:id]} had the highest average rating"
-      superstar_drivers << string_sentence
     end
   end
   return superstar_drivers

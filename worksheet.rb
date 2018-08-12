@@ -22,7 +22,7 @@
 
   # Setup the data structure and manually write in data presented in rides.csv
 
-  rideshare_drivers = [
+  rideshare = [
   
     # DR0001
     {

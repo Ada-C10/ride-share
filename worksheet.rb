@@ -9,7 +9,7 @@ RIDES = [
   {
     driver_id: 'DR0001',
     date: '2016-02-03',
-    cost: 100,
+    cost: 10,
     rider_id: 'RD0003',
     rating: 3
   },
@@ -96,7 +96,7 @@ def print_driver_details(drivers, num_of_rides, total_earnings, avg_rating, high
   puts ""
 end
 
-def merge_hashes(date)
+def find_highest_paid(date)
   return date.inject{|date, cost| date.merge( cost ){|k, old_v, new_v| old_v + new_v}}.max_by{ |date, cost| cost  }
 end
 
@@ -191,7 +191,7 @@ highest_paid_date = []
 rides_by_date.values.each do |date|
   driver_highest  = {}
   driver = drivers[i]
-  driver_highest[driver] = merge_hashes(date)
+  driver_highest[driver] = find_highest_paid(date)
   i += 1
   highest_paid_date << driver_highest
 end

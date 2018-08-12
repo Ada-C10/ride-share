@@ -175,14 +175,14 @@ drivers.each do |driver|
   i += 1
 end
 
-rides_by_date = RIDES.group_by{ |h| h[:driver_id]}
-.each{|_, v| v.map!{ |h| { h[:date] => h[:cost] } } }
+rides_by_date = RIDES.group_by{ |ride| ride[:driver_id]}
+.each{|driver, rides| rides.map!{ |ride| { ride[:date] => ride[:cost] } } }
 
-rides_by_date.values.each do |date|
-  date.group_by{|h| h.keys.first}.values
-  .map{|a| {
-    a.first.keys.first =>
-    a.inject(0){|sum, h| sum + h.values.first}
+rides_by_date.values.each do |driver|
+  driver.group_by{|trip| trip.keys.first}.values
+  .map{|drivers_trips| {
+    drivers_trips.first.keys.first =>
+    drivers_trips.inject(0){|sum, trip| sum + trip.values.first}
     }}
 end
 

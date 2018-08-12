@@ -9,7 +9,7 @@ RIDES = [
   {
     driver_id: 'DR0001',
     date: '2016-02-03',
-    cost: 10,
+    cost: 100,
     rider_id: 'RD0003',
     rating: 3
   },
@@ -97,7 +97,7 @@ def print_driver_details(drivers, num_of_rides, total_earnings, avg_rating, high
 end
 
 def merge_hashes(date)
-  return date.inject(:merge).max_by{ |date, cost| cost }
+  return date.inject{|date, cost| date.merge( cost ){|k, old_v, new_v| old_v + new_v}}.max_by{ |date, cost| cost  }
 end
 
 def find_highest_ratings(driver_dets)
@@ -133,6 +133,7 @@ end
 
 def find_driver_earnings(driver_id)
   driver_total = 0
+
   RIDES.each do |ride|
     if driver_id == ride[:driver_id]
       driver_total += ride[:cost]

@@ -97,26 +97,6 @@ drivers = {
 
 #  Use an iteration block to print driver's total rides and money made
 
-
-# Creating hash of driver by date for cost
-
-driver_by_date = {}
-drivers.each do |driver, rides|
-
-  driver_by_date[driver] = {}
-  rides.each do |ride|
-
-    # saving the revenue by driver by date
-    date = ride[:date]
-    if driver_by_date[driver].key?(date) then
-      driver_by_date[driver][date] += ride[:cost]
-    else
-      driver_by_date[driver][date] = ride[:cost]
-    end
-  end
-end
-
-
 # Calculating info for respective drivers
 driver_info = {}
 
@@ -125,7 +105,7 @@ drivers.each do |driver, rides|
   driver_info[driver] = {:total_rides => rides.length,
               :average_rating => (1.0 * rides.sum{ |ride| ride[:rating] } / rides.length).round(2),
               :total_revenue => rides.sum{ |ride| ride[:cost]},
-              :profitable_day => driver_by_date[driver].key(driver_by_date[driver].values.max)
+              :profitable_day => rides.max_by{ |ride| ride[:cost] }[:date]
             }
 
   puts "\nDriver: #{driver} has"

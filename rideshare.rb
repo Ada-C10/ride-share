@@ -140,62 +140,6 @@ drivers = [
 
 
 
-# Method to find the date with the highest average rating per driver
-
-def highest_average_day(data)
-
-  # Define an array to store the final data
-  drivers_array = []
-
-  # Loop that exposes each driver's hash
-  data.each do |driver|
-
-    # Define new hash to store averages data for each driver iteration; define variables for average calculation
-    driver_hash = Hash.new
-    highest_avg = 0
-    highest_avg_date = nil
-
-    # Loop that exposes each date the driver gave rides on; defines an accumulator variable to find sum of all ride ratings per date; also assigns a variable with the total number of rides per date
-    driver[:ride_dates].each do |ride_date|
-      ride_date_sum = 0
-      number_of_rides = ride_date[:rides].length
-
-      ride_date[:rides].each do |ride|
-        ride_date_sum += ride[:rating]
-      end
-
-      # Assign the average per date to a variable
-      date_avg = ride_date_sum.to_f / number_of_rides
-
-      # Check the average per date against the prior reigning highest average
-      if date_avg > highest_avg
-        highest_avg_date = ride_date[:date]
-        highest_avg = date_avg
-      elsif date_avg == highest_avg
-        highest_avg_date << "; " + ride_date[:date]
-      end
-
-    end
-
-    # Populate the driver hash with details of highest average day
-    driver_hash[:driverid] = driver[:driverid]
-    driver_hash[:best_day] = highest_avg_date
-    driver_hash[:avg_rating] = highest_avg
-
-    # Push driver hash to the final data array
-    drivers_array << driver_hash
-  end
-
-  return drivers_array
-end
-
-
-# Display the data
-highest_average_day_array = highest_average_day(drivers)
-
-puts "The day with the highest average rating for each driver was:"
-
-puts highest_average_day_array
 
 
 
@@ -387,3 +331,64 @@ end
 
 # Display the data
 puts "Looks like #{highest_avg_rating(drivers)[0]} had the highest average rating, with an average rating of #{highest_avg_rating(drivers)[1]}!"
+
+
+
+
+
+# Method to find the date with the highest average rating per driver (I misread the optional question, sorry!)
+
+def highest_average_day(data)
+
+  # Define an array to store the final data
+  drivers_array = []
+
+  # Loop that exposes each driver's hash
+  data.each do |driver|
+
+    # Define new hash to store averages data for each driver iteration; define variables for average calculation
+    driver_hash = Hash.new
+    highest_avg = 0
+    highest_avg_date = nil
+
+    # Loop that exposes each date the driver gave rides on; defines an accumulator variable to find sum of all ride ratings per date; also assigns a variable with the total number of rides per date
+    driver[:ride_dates].each do |ride_date|
+      ride_date_sum = 0
+      number_of_rides = ride_date[:rides].length
+
+      ride_date[:rides].each do |ride|
+        ride_date_sum += ride[:rating]
+      end
+
+      # Assign the average per date to a variable
+      date_avg = ride_date_sum.to_f / number_of_rides
+
+      # Check the average per date against the prior reigning highest average
+      if date_avg > highest_avg
+        highest_avg_date = ride_date[:date]
+        highest_avg = date_avg
+      elsif date_avg == highest_avg
+        highest_avg_date << "; " + ride_date[:date]
+      end
+
+    end
+
+    # Populate the driver hash with details of highest average day
+    driver_hash[:driverid] = driver[:driverid]
+    driver_hash[:best_day] = highest_avg_date
+    driver_hash[:avg_rating] = highest_avg
+
+    # Push driver hash to the final data array
+    drivers_array << driver_hash
+  end
+
+  return drivers_array
+end
+
+
+# Display the data
+highest_average_day_array = highest_average_day(drivers)
+
+puts "The day with the highest average rating for each driver was:"
+
+puts highest_average_day_array

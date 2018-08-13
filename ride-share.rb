@@ -112,6 +112,8 @@ puts
 puts "******************************"
 puts "QUESTION 2: How much money has each driver made?"
 puts
+
+# V1: Solved with loops
 lyft_drivers.each do |driver, rides|
   earnings = 0
   rides.each do |ride|
@@ -121,10 +123,22 @@ lyft_drivers.each do |driver, rides|
 end
 puts
 
+# V2: Solved with map and sum
+puts "Solved using map and sum instead:"
+lyft_drivers.each do |driver, rides|
+  earnings = rides.map do |ride|
+    ride[:cost]
+  end
+  puts "Driver: #{driver}, Total earnings: $#{earnings.sum}"
+end
+puts
+
 # - The average rating for each driver
 puts "******************************"
 puts "QUESTION 3: What's the average rating for each driver?"
 puts
+
+# V1: Solved with loops
 lyft_drivers.each do |driver, rides|
   total_rating = 0
   rides.each do |ride|
@@ -135,10 +149,22 @@ lyft_drivers.each do |driver, rides|
 end
 puts
 
+# V2: Solved with map and sum
+puts "Solved using map and sum instead:"
+lyft_drivers.each do |driver, rides|
+  ratings = rides.map do |ride|
+    ride[:rating]
+  end
+  puts "Driver: #{driver}, Average rating: #{(ratings.sum.to_f / ratings.length).round(1)}"
+end
+puts
+
 # - Which driver made the most money?
 puts "******************************"
 puts "QUESTION 4: Which driver made the most money?"
 puts
+
+# V1: Solved with loops
 highest_earning_driver = {
   driver: nil,
   earnings: 0
@@ -158,6 +184,7 @@ end
 puts "Highest earning driver: #{highest_earning_driver[:driver]} with $#{highest_earning_driver[:earnings]}"
 puts
 
+# V2: Solved with map and sum
 highest_earning_driver1 = {
   driver: nil,
   earnings: 0
@@ -200,6 +227,27 @@ lyft_drivers.each do |driver, rides|
 end
 
 puts "Highest rated driver: #{highest_rated_driver[:driver]} with #{highest_rated_driver[:driver_rating]} stars"
+puts
+
+# V2: Solved with map and sum
+highest_rated_driver1 = {
+  driver: nil,
+  earnings: 0
+}
+
+lyft_drivers.each do |driver, rides|
+  ride_ratings = rides.map do |ride|
+    ride[:rating]
+  end
+  avg_rating = (ride_ratings.sum.to_f / ride_ratings.length).round(1)
+  if avg_rating > highest_rated_driver1[:earnings]
+    highest_rated_driver1[:driver] = driver
+    highest_rated_driver1[:rating] = avg_rating
+  end
+end
+
+puts "Solved using map and sum instead:"
+puts "Highest rated driver: #{highest_rated_driver1[:driver]} with #{highest_rated_driver1[:rating]} stars"
 puts
 
 # Optionally, print in the terminal:

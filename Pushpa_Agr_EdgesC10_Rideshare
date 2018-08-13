@@ -1,0 +1,48 @@
+drivers = {
+  DR0001: [{date: "2/3/16", rider_id: "RD0003", rating: 3, cost: 10},{date: "2/3/16", rider_id: "RD0015", rating: 4, cost: 30},{date: "2/5/16", rider_id: "RD0003", rating: 2, cost: 45}],
+
+  DR0002: [{date: "2/3/16", rider_id: "RD0073", rating: 5, cost: 25}, {date: "2/4/16", rider_id: "RD0013", rating: 1, cost: 15}, {date: "2/5/16", rider_id: "RD0066", rating: 3, cost: 35}],
+
+  DR0003: [{date: "2/4/16", rider_id: "RD0066", rating: 5, cost: 5},{date: "2/5/16", rider_id: "RD0003", rating: 2, cost: 50}],
+
+  DR0004: [{date: "2/3/16", rider_id: "RD0022", rating: 5, cost: 5},{date: "2/4/16", rider_id: "RD0022", rating: 4, cost: 10},{date: "2/5/16", rider_id: "RD0073", rating: 5, cost: 20}]
+}
+
+def driver_calc (drivers)
+
+  most_money = 0.0
+  max_driver = " "
+  most_rating = 0.0
+
+  drivers.each do |driver, data|
+    total_money = 0.0
+    total_rating = 0.0
+    data.each do |ride|
+      total_money = total_money + ride[:cost]
+      total_rating = total_rating + ride[:rating]
+    end
+
+    if total_money > most_money
+      most_money = total_money
+      max_driver = driver
+    end
+
+    ave_driver_rating = total_rating / data.length
+
+    if ave_driver_rating > most_rating
+      most_rating = ave_driver_rating
+      max_driver = driver
+    end
+
+    puts "\n #{driver}: TOTAL MONEY was: $#{total_money} and TOTAL RIDES were #{data.length}, and the AVERAGE RATING was #{(total_rating/data.length).round(2)} \n \n"
+  end
+
+
+  puts "The Driver with this ID:#{max_driver}  had the MOST MONEY which was $: #{most_money} \n \n"
+
+  puts "The driver with this ID: #{max_driver} had the MOST RATINGS with: #{most_rating.round(2)} \n \n"
+
+end
+
+
+driver_calc(drivers)

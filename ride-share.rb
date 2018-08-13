@@ -136,8 +136,8 @@ def make_results_table(drivers,sort_by=:driver_id,order=:lowtohigh)
 end
 
 def best_day(rides)
-  top_cost = rides.reduce(0) {|m,h| m > h[:cost]? m : h[:cost]}
-  rides.select{|h| h[:cost] == top_cost}.flat_map{|h| h[:date]}
+  top_cost = rides.max_by{|h|h[:cost]}[:cost]
+  rides.select{|h| h[:cost] == top_cost}.map{|h| h[:date]}
 end
 
 def sort_results_table(results_table,sort_by,order)
@@ -154,8 +154,8 @@ end
 
 # Goal 2:         # add_top_driver(drivers,rank_by) => top_driver[rank_by]
 def add_top_driver(results_table,top_drivers,rank_by)
-  top_score = results_table.reduce(0) {|m,h| m > h[rank_by]? m : h[rank_by]}
-  top_driver = results_table.select{|h| h[rank_by] == top_score }.flat_map{|h| h[:driver_id]}
+  top_score = results_table.max_by{|h|h[rank_by]}[rank_by]
+  top_driver = results_table.select{|h| h[rank_by] == top_score }.map{|h| h[:driver_id]}
   top_drivers[rank_by] = {top_score: top_score, drivers: top_driver}
 end
 

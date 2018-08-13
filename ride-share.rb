@@ -113,7 +113,7 @@ end
 
 # Goal 1:         # make_results_table(drivers,sort_by,order) => results_table
                   # best_day(rides)
-                  # sort_results_table(rides)
+                  # sort_results_table(results_table,sort_by,order) => results_table
 
 def make_results_table(drivers,sort_by=:driver_id,order=:lowtohigh)
   # drivers = master[:drivers]
@@ -152,7 +152,7 @@ def sort_results_table(results_table,sort_by,order)
   return results_table
 end
 
-# Goal 2:         # add_top_driver(drivers,rank_by) => top_driver[rank_by]
+# Goal 2:         # add_top_driver(results_table,top_drivers,rank_by) => top_drivers[rank_by]
 def add_top_driver(results_table,top_drivers,rank_by)
   top_score = results_table.max_by{|h|h[rank_by]}[rank_by]
   top_driver = results_table.select{|h| h[rank_by] == top_score }.map{|h| h[:driver_id]}
@@ -160,7 +160,6 @@ def add_top_driver(results_table,top_drivers,rank_by)
 end
 
 # Goal 3:         # print_results_table(results_table)
-
 def print_results_table(results_table)
   column_headings = results_table[0].keys.map{|key| key.to_s.gsub("_"," ").upcase}
   column_headings[4] << "(S)"
@@ -190,7 +189,7 @@ def print_top_drivers(top_drivers)
   puts "\n"
 end
 
-# Extra:        # ask_to_resuort(results_table)
+# Extra:        # ask_to_resort(results_table)
 def ask_to_resort(results_table)
   puts "\n\td (Driver ID)\tr (Tot Rides)\tc (Tot Cost)\ta (Avg Rating)\tq (Quit)"
   print "Sort results table by: > "

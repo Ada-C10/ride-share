@@ -129,7 +129,6 @@ ride_share_info = {
 # Use an iteration block to print driver's total rides and money made
 # get total rides
 
-
 def driver_total_rides(info)
   # goal: make an array of hashes [{driver: total_ride_count}]
   driver_info = info.map do |driver, rides|
@@ -138,7 +137,7 @@ def driver_total_rides(info)
     total_ride_count = rides.map { |date, each_ride| each_ride.length}.reduce(:+)
     # create hash for each driver
     driver_and_rides[driver] = total_ride_count
-    # assign hash to the array
+    # add hash to the array
     driver_and_rides
   end
   # return value is the array
@@ -148,9 +147,8 @@ end
 
 def total_amount_per_driver(info)
   # goal: make an array of hashes [{driver: total_amount}]
-  driver_info = []
   # get total amount made per driver
-  info.each do |driver, rides|
+  driver_info = info.map do |driver, rides|
     driver_and_amount = {}
     total_amount = 0
     rides.each do |date, each_ride|
@@ -161,7 +159,7 @@ def total_amount_per_driver(info)
       driver_and_amount[driver] = total_amount
     end
     # add hash into the array
-    driver_info << driver_and_amount
+    driver_and_amount
   end
   # return value is the array
   return driver_info
@@ -170,9 +168,8 @@ end
 
 def average_rating(info)
   # goal: make an array of hashes [{driver: avg_rating}]
-  driver_info = []
   # get average rating per driver
-  info.each do |driver, rides|
+  driver_info = info.map do |driver, rides|
     driver_and_rating = {}
     average = 0.0
     total_ride_count = 0.0
@@ -190,7 +187,7 @@ def average_rating(info)
       driver_and_rating[driver] = average
     end
     # add hash into the array
-    driver_info << driver_and_rating
+    driver_and_rating
   end
   # return value is the array
   return driver_info
@@ -240,9 +237,8 @@ end
 
 def day_highest_earned(info)
   # goal: make an array of hashes [{driver: date}]
-  driver_info = []
   # find highest amount made per day, per driver
-  info.each do |driver, rides|
+  driver_info = info.map do |driver, rides|
     driver_and_day = {}
     cost_per_ride = 0
     raised_most_date = nil
@@ -259,7 +255,7 @@ def day_highest_earned(info)
       driver_and_day[driver] = raised_most_date
     end
     # add each hash into the array
-    driver_info << driver_and_day
+    driver_and_day
   end
   # return value is the array
   return driver_info

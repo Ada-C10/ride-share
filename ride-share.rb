@@ -113,7 +113,7 @@ end
 
 # Goal 1:         # make_results_table(drivers,sort_by,order) => results_table
                   # best_day(rides)
-                  # sort_results_table(results_table,sort_by,order) => results_table
+                  # sort_results_table(rides)
 
 def make_results_table(drivers,sort_by=:driver_id,order=:lowtohigh)
   # drivers = master[:drivers]
@@ -147,12 +147,12 @@ def sort_results_table(results_table,sort_by,order)
   when :lowtohigh
     results_table.sort_by!{ |h| h[sort_by] }
   else
-    puts "~ ARGUMENT ERROR IN sort_results_table ~"
+    raise ArgumentError, "Third argument must be :hightolow or :lowtohigh"
   end
   return results_table
 end
 
-# Goal 2:         # add_top_driver(results_table,top_drivers,rank_by) => top_drivers[rank_by]
+# Goal 2:         # add_top_driver(drivers,rank_by) => top_driver[rank_by]
 def add_top_driver(results_table,top_drivers,rank_by)
   top_score = results_table.max_by{|h|h[rank_by]}[rank_by]
   top_driver = results_table.select{|h| h[rank_by] == top_score }.map{|h| h[:driver_id]}
@@ -160,6 +160,7 @@ def add_top_driver(results_table,top_drivers,rank_by)
 end
 
 # Goal 3:         # print_results_table(results_table)
+
 def print_results_table(results_table)
   column_headings = results_table[0].keys.map{|key| key.to_s.gsub("_"," ").upcase}
   column_headings[4] << "(S)"
@@ -189,45 +190,40 @@ def print_top_drivers(top_drivers)
   puts "\n"
 end
 
-# Extra:        # ask_to_resort(results_table)
+# Extra:        # ask_to_resuort(results_table)
 def ask_to_resort(results_table)
   puts "\n\td (Driver ID)\tr (Tot Rides)\tc (Tot Cost)\ta (Avg Rating)\tq (Quit)"
   print "Sort results table by: > "
   sort_by = $stdin.gets.chomp
   allowed = %w(d r c a q)
+  allowed_parallel_keys = [:driver_id, :tot_rides, :tot_cost, :avg_rating,
+                           :quit]
+  sort_by_hash = Hash[allowed.zip(allowed_parallel_keys)]
+  # {"d"=>:driver_id, "r"=>:tot_rides, "c"=>:tot_cost, "a"=>:avg_rating, "q"=>:quit}
+
   until allowed.include?(sort_by)
     print "Sort results table by: > "
     sort_by = $stdin.gets.chomp
   end
-  sort_by =
-    if sort_by == "d"
-      :driver_id
-    elsif sort_by == "r"
-      :tot_rides
-    elsif sort_by == "c"
-      :tot_cost
-    elsif sort_by == "a"
-      :avg_rating
-    elsif sort_by == "q"
-      footer
-      exit
-    end
+
+  sort_by = sort_by_hash[sort_by]
+  if sort_by == :quit
+    footer
+    exit
+  end
   puts "\td (Descending)\ta (Ascending)"
   print "Sort order: > "
   order = $stdin.gets.chomp
   allowed = %w(d a)
+  allowed_parallel_keys = [:hightolow, :lowtohigh]
+  order_hash = Hash[allowed.zip(allowed_parallel_keys)]
   until allowed.include?(order)
     print "Sort order: > "
     order = $stdin.gets.chomp
   end
-  order =
-    if order == "d"
-      :hightolow
-    elsif order == "a"
-      :lowtohigh
-    end
-  puts "\n"
+  order = order_hash[order]
   results_table = sort_results_table(results_table,sort_by,order)
+  puts "\n"
   header("3rd Feb 2016 - 5th Feb 2016","SORTED BY: #{sort_by}, #{order}")
   print_results_table(results_table)
   footer
@@ -247,9 +243,9 @@ ask_to_resort(results_table)
 footer
 
 # TO DO
-# put master in a separate file
+# terminal table gem
+# put master.rb in separate file
 # how to make sort_by have a secondary sort? tertiary?
 # simplest way for ruby to recognize the date? and sort dates?
 # autocomplete date range field in the subtitle
-# custom error messages?
-# change 35-->25 (Driver 2's cost)
+# change 35--> back to 25 (original value for Driver 2's cost)

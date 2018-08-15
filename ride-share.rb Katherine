@@ -1,0 +1,123 @@
+#Welcome to RideShare Katherine Fitzpatrick Cohort 10
+
+
+rides = 0
+money = 0
+driver_rating = 0
+money_b = 0
+money_max = 0
+big_index = 0
+money_big_total = 0
+
+
+#money_big_arr = []
+#ride_total = []
+#driver_name = ""
+i = 0
+
+drivers = 
+ [
+     { :name =>"driver_one",
+       id:"dr0001",
+        date:["3rd Feb 2016", "3rd Feb 2016", "5th Feb 2016"],
+        cost:[10,30, 45],
+        rider_id:["RD0003", "RD0015","RD0003"],
+        rating:[3,4, 2]
+      },
+
+      {
+          name:"driver_two",
+          id:"dr0002",
+          date:['3rd Feb 2016', '4th Feb 2016','5th Feb 2016'],
+          cost:[25,15, 35],
+          rider_id:["RD0073", "RD0013", "RD0066"],
+          rating:[5,1, 3]
+        },
+
+        {
+              name: "driver_three",
+              id:"dr0003",
+              date:["4th Feb 2016", "5th Feb 2016"],
+              cost:[5, 50],
+              rider_id:["RD0066", "RD0003"],
+              rating:[5, 2]
+            },
+
+            {
+                name: "driver_four",
+                id:"dr0004",
+                date:["3rd Feb 2016","4th Feb 2016", "5th Feb 2016"],
+                cost:[5,10, 20],
+                rider_id:["RD0022", "RD0022", "RD0073"],
+                rating:[5, 4, 5]
+                }
+    ]
+#The number of rides each driver has given
+def driver_rides(drivers,rides)
+ride_total = 0
+driver_name = 0
+  drivers.each do |key, value|
+    rides = key.fetch(:rider_id)
+      ride_total = rides.count
+        driver_name = key.fetch(:name)
+
+  puts "#{driver_name}" + " "+ "had" + " " + "#{ride_total}" + " " "rides"
+  end
+end
+
+driver_rides(drivers,rides)
+
+#The total amount of money each driver has made
+def driver_money(drivers,money)
+money_total = 0
+driver_name = 0
+  drivers.each do |key, value|
+    money = key.fetch(:cost)
+      money_total = money.sum
+        driver_name = key.fetch(:name)
+
+  puts "#{driver_name}" + " "+ "made" + " " + "$" + "#{money_total.to_i}" 
+  end
+end
+
+driver_money(drivers,money)
+
+#The average rating for each driver
+def driver_average(drivers,driver_rating)
+  d_average = 0
+  driver_name = 0
+
+  drivers.each do |key, value|
+    driver_rating = key.fetch(:rating)
+      d_average = driver_rating.inject{ |sum, el| sum + el }.to_f / driver_rating.size
+        driver_name = key.fetch(:name)
+      
+         puts "#{driver_name}" + " "+ "has an average rating of" + " "  "#{d_average.to_f}" 
+ end
+end
+
+
+
+driver_average(drivers,driver_rating)
+
+#Which driver made the most money?
+
+def driver_big_money(drivers,money_b)
+  money_big = []
+  money_big_total = 0
+  driver_name = 0
+
+  drivers.each do |key, value|
+    money_b = key.fetch(:cost)
+     money_big << money_b.sum
+     money_big_total = money_big.each_with_index.max[1]
+     if money_big_total == 0
+     puts "driver_one made the most money"
+      elsif money_big_total == 1
+      puts "driver_two made the most money"
+    
+    end
+  end
+end 
+
+driver_big_money(drivers,money_b)

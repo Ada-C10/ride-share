@@ -82,28 +82,25 @@ rides = [
 
 # Based on the information provided, created a hash to hold the driver information.
 
-drivers = {
-  'DR0001': {
-    rides: 3,
-    money: 85,
-    ratings: [3, 4, 2]
-  },
-  'DR0002': {
-    rides: 3,
-    money: 75,
-    ratings: [5, 1, 3]
-  },
-  'DR0003': {
-    rides: 2,
-    money: 55,
-    ratings: [5, 2]
-  },
-  'DR0004': {
-    rides: 3,
-    money: 35,
-    ratings: [5, 4, 5]
-  }
-}
+drivers = {}
+
+# Iterating through the rides array, checking to see if driver_id key exists, if not, it adds the id to the drivers hash
+#   along with information about the driver from that ride. It then continues to iterate to see if the driver id already exists,
+#   and if so, it adds the rest of the driver information from that ride. 
+rides.each do |ride|
+    if drivers[ride[:driver_ID]]
+        drivers[ride[:driver_ID]][:rides] += 1
+        drivers[ride[:driver_ID]][:money] += ride[:cost]
+        drivers[ride[:driver_ID]][:ratings].push(ride[:rating])
+    else
+        drivers[ride[:driver_ID]] = {}
+        drivers[ride[:driver_ID]][:rides] = 1
+        drivers[ride[:driver_ID]][:money] = ride[:cost]
+        drivers[ride[:driver_ID]][:ratings] = [ride[:rating]]
+    end
+end
+
+
 puts """
 
 +-+-+-+-+-+-+-+-+-+-+-+-+
